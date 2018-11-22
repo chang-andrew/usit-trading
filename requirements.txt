@@ -1,0 +1,2 @@
+googlefinance
+psycopg2
