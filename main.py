@@ -108,6 +108,11 @@ def make_table():
     
     main_cursor.execute(sql_string)
 
+    #commit and close session
+    main_cursor.commit()
+    main_cursor.close()
+    conn.close()
+
     print("Table created")
 
 
@@ -120,6 +125,11 @@ def make_person():
     name = str(input("Enter Name:"))
 
     main_cursor.execute("INSERT INTO responses (PersonName) VALUES (%s)", (name,))
+
+    #commit and close session
+    main_cursor.commit()
+    main_cursor.close()
+    conn.close()
 
     print("Inserted " + name)
 
