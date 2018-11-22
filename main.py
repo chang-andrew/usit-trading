@@ -105,6 +105,8 @@ def make_table():
             sql_string +=  ", "
 
     sql_string += ")"
+
+    print(sql_string)
     
     main_cursor.execute(sql_string)
 
