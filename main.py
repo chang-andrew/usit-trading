@@ -145,12 +145,14 @@ def test_connection():
                     host=host,
                     port=port
                     )
-                    
+
         print("Successfully connected")
     except:
         print("Error connecting to DB")
 
 
+if __name__ == '__main__':
+    test_connection()
     
 
 
