@@ -105,8 +105,6 @@ def make_table():
             sql_string +=  ", "
 
     sql_string += ")"
-
-    print(sql_string)
     
     main_cursor.execute(sql_string)
 
@@ -152,20 +150,19 @@ if __name__ == '__main__':
     print("Welcome to USIT Trading")
     print("Select from the following options:")
     print("1. Print Ranking")
-    print("2. Make Table")
-    print("3. Update Response")
-    print("4. Make Person")
-    print("5. Test Connection")
+    print("2. Update Response")
+    print("3. Make Person")
+    print("4. Test Connection")
     user_input = int(input("Enter your option: "))
 
     if user_input == 1:
         print_ranking()
     elif user_input == 2:
-        make_table()
-    elif user_input == 3:
         update_responses()
-    elif user_input == 4:
+    elif user_input == 3:
         make_person()
+    elif user_input == 4:
+        test_connection()
 
 
 
