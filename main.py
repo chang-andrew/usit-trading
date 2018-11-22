@@ -4,6 +4,8 @@ import json
 from googlefinance import getQuotes
 from decimal import Decimal
 from operator import itemgetter
+import urllib.parse as urlparse
+import os
 
 def print_ranking():
     DATABASE_URL = os.environ['DATABASE_URL']
@@ -128,14 +130,22 @@ def make_person():
 
 
 def test_connection():
-    print("Can print")
     try:
-        DATABASE_URL = os.environ['DATABASE_URL']
+        url = urlparse.urlparse(os.environ['DATABASE_URL'])
+        dbname = url.path[1:]
+        user = url.username
+        password = url.password
+        host = url.hostname
+        port = url.port
 
-        conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-
-        main_cursor = conn.cursor()
-
+        con = psycopg2.connect(
+                    dbname=dbname,
+                    user=user,
+                    password=password,
+                    host=host,
+                    port=port
+                    )
+                    
         print("Successfully connected")
     except:
         print("Error connecting to DB")

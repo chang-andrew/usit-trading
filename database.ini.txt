@@ -1,0 +1,5 @@
+[postgresql]
+host=ec2-23-21-201-12.compute-1.amazonaws.com
+database=d67ir27c35sbs0
+user=eafzxxrcgjlhlb
+password=aedd6602ff467751cebd42bd452e2b838e187f813524a70ab0a18493c6dbeba1
