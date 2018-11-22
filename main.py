@@ -8,15 +8,17 @@ import urllib.parse as urlparse
 import os
 
 def print_ranking():
-    DATABASE_URL = os.environ['DATABASE_URL']
+    conn = test_connection()
 
-    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+    print("Connected")
 
     #Create a scrollable, client-side cursor for 'responses' table
     main_cursor = conn.cursor(None, None, True, False)
     #Create another cursor for our stocks table query
     stocks_cursor = conn.cursor(None, None, True, False)
     stocks_cursor.execute("SELECT * FROM stocks")
+
+    print("Executed")
 
     #dictionary to store stock price information
     stock_price_changes = []
@@ -44,48 +46,44 @@ def print_ranking():
         
         stock_price_changes.append(percent_change)
 
+        #select all rows in the 'responses' table   
+        main_cursor.execute("SELECT * FROM responses")
 
-        
+        #this is the dictionary we will use to store mappings of "name" : int($amount)
+        performance_dict = {}
 
+        #loop through every row in the table
+        current_person_tuple = main_cursor.fetchone()
 
-    #select all rows in the 'responses' table   
-    main_cursor.execute("SELECT * FROM responses")
+        #for each row/person, we want to...
+        while(current_person_tuple != None):
+            
+            sum_percent = 100
 
-    #this is the dictionary we will use to store mappings of "name" : int($amount)
-    performance_dict = {}
+            #loop over each one of their responses for each week/stock
+            #start from the 1st index element since 0 is the ID
+            for i in range(len(current_person_tuple)-1):
+                #get the string response (Y/N/No position)
+                response = current_person_tuple[i+1]
+                #get that weeks stock price change
+                cur_week_stock = stock_price_changes[i]
+                if(response == "YES"):
+                    sum_percent += cur_week_stock
+                elif(response == "NO"):
+                    sum_percent -= cur_week_stock
 
-    #loop through every row in the table
-    current_person_tuple = main_cursor.fetchone()
+            #map their total money to their name
+            name = current_person_tuple[0]
+            performance_dict[name] = sum_percent
 
-    #for each row/person, we want to...
-    while(current_person_tuple != None):
-        
-        sum_percent = 100
+        rank_number = 1
+        for name_perf_pair in sorted(performance_dict.items(), key=itemgetter(1)):
+            name = name_perf_pair[0]
+            performance = name_perf_pair[1]
 
-        #loop over each one of their responses for each week/stock
-        #start from the 1st index element since 0 is the ID
-        for i in range(len(current_person_tuple)-1):
-            #get the string response (Y/N/No position)
-            response = current_person_tuple[i+1]
-            #get that weeks stock price change
-            cur_week_stock = stock_price_changes[i]
-            if(response == "YES"):
-                sum_percent += cur_week_stock
-            elif(response == "NO"):
-                sum_percent -= cur_week_stock
-
-        #map their total money to their name
-        name = current_person_tuple[0]
-        performance_dict[name] = sum_percent
-
-    rank_number = 1
-    for name_perf_pair in sorted(performance_dict.items(), key=itemgetter(1)):
-        name = name_perf_pair[0]
-        performance = name_perf_pair[1]
-
-        #do something with those values
-        return_string = str(rank_number) + ". " + name + " :: " + str(performance) 
-        print(return_string)
+            #do something with those values
+            return_string = str(rank_number) + ". " + name + " :: " + str(performance) 
+            print(return_string)
 
 
 
@@ -94,9 +92,7 @@ def update_responses():
 
 
 def make_table():
-    DATABASE_URL = os.environ['DATABASE_URL']
-
-    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+    conn = test_connection()
 
     main_cursor = conn.cursor()
 
@@ -116,9 +112,8 @@ def make_table():
 
 
 def make_person():
-    DATABASE_URL = os.environ['DATABASE_URL']
 
-    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+    conn = test_connection()
 
     main_cursor = conn.cursor()
 
@@ -145,15 +140,30 @@ def test_connection():
                     host=host,
                     port=port
                     )
-
         print("Successfully connected")
+        return con
     except:
         print("Error connecting to DB")
 
 
 if __name__ == '__main__':
-    test_connection()
-    
+    print("Welcome to USIT Trading")
+    print("Select from the following options:")
+    print("1. Print Ranking")
+    print("2. Make Table")
+    print("3. Update Response")
+    print("4. Make Person")
+    print("5. Test Connection")
+    user_input = int(input("Enter your option: "))
+
+    if user_input == 1:
+        print_ranking()
+    elif user_input == 2:
+        make_table()
+    elif user_input == 3:
+        update_responses()
+    elif user_input == 4:
+        make_person()
 
 
 
