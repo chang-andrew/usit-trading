@@ -85,7 +85,11 @@ def print_ranking():
             return_string = str(rank_number) + ". " + name + " :: " + str(performance) 
             print(return_string)
 
-
+        #commit and close connection
+        conn.commit()
+        main_cursor.close()
+        stocks_cursor.close()
+        conn.close()
 
 def update_responses():
     pass
@@ -109,7 +113,7 @@ def make_table():
     main_cursor.execute(sql_string)
 
     #commit and close session
-    main_cursor.commit()
+    conn.commit()
     main_cursor.close()
     conn.close()
 
@@ -127,7 +131,7 @@ def make_person():
     main_cursor.execute("INSERT INTO responses (PersonName) VALUES (%s)", (name,))
 
     #commit and close session
-    main_cursor.commit()
+    conn.commit()
     main_cursor.close()
     conn.close()
 
