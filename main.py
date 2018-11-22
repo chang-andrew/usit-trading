@@ -113,6 +113,18 @@ def make_table():
     print("Table created")
 
 
+def make_person(name):
+    DATABASE_URL = os.environ['DATABASE_URL']
+
+    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+
+    main_cursor = conn.cursor()
+
+    main_cursor.execute("INSERT INTO responses (PersonName) VALUES (%s)", (name,))
+
+    print("Inserted " + name)
+    
+
 
 
 
