@@ -163,6 +163,7 @@ if __name__ == '__main__':
     print("2. Update Response")
     print("3. Make Person")
     print("4. Test Connection")
+    print("5. Make Table")
     user_input = int(input("Enter your option: "))
 
     if user_input == 1:
@@ -173,6 +174,8 @@ if __name__ == '__main__':
         make_person()
     elif user_input == 4:
         test_connection()
+    elif user_input == 5:
+        make_table()
 
 
 
