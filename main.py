@@ -14,6 +14,7 @@ def print_ranking():
     main_cursor = conn.cursor(None, None, True, False)
     #Create another cursor for our stocks table query
     stocks_cursor = conn.cursor(None, None, True, False)
+    stocks_cursor.execute("SELECT * FROM stocks")
 
     #dictionary to store stock price information
     stock_price_changes = []
@@ -88,6 +89,29 @@ def print_ranking():
 
 def update_responses():
     pass
+
+
+def make_table():
+    DATABASE_URL = os.environ['DATABASE_URL']
+
+    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+
+    main_cursor = conn.cursor()
+
+    sql_string = "CREATE TABLE responses (PersonName varchar(255), "
+
+    for i in range(1, 10):
+        
+        sql_string += "Stock"+str(i)+" varchar(10)"
+        if(i != 10):
+            sql_string +=  ", "
+
+    sql_string += ")"
+    
+    main_cursor.execute(sql_string)
+
+    print("Table created")
+
 
 
 
