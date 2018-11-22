@@ -98,7 +98,7 @@ def make_table():
 
     sql_string = "CREATE TABLE responses (PersonName varchar(255), "
 
-    for i in range(1, 10):
+    for i in range(1, 11):
         
         sql_string += "Stock"+str(i)+" varchar(10)"
         if(i != 10):
