@@ -131,7 +131,7 @@ def make_person():
 
     name = str(input("Enter Name:"))
 
-    main_cursor.execute("INSERT INTO responses VALUES (%s, 'No position', 'No position', 'No position', 'No position','No position','No position','No position','No position','No position','No position')", (name,))
+    main_cursor.execute("INSERT INTO responses VALUES (%s, 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None')", (name,))
 
     #commit and close session
     conn.commit()
