@@ -210,7 +210,7 @@ if __name__ == '__main__':
         user_input = int(input("Enter your option: "))
         
         if user_input == 0:
-            return
+            break
         elif user_input == 1:
             print_ranking()
         elif user_input == 2:
