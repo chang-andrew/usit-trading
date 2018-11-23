@@ -209,8 +209,10 @@ if __name__ == '__main__':
         print("5. Make Table")
         print("6. Delete Person")
         print("7. Print Table")
-        user_input = int(input("Enter your option: "))
-        
+        user_input = input("Enter your option: ")
+        while not user_input.isdigit():
+            user_input = input("Enter a valid option: ")
+
         if user_input == 0:
             break
         elif user_input == 1:
