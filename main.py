@@ -231,6 +231,7 @@ if __name__ == '__main__':
             delete_person()
         elif user_input == 7:
             print_table()
+    print("Thanks for playing")
 
 
 
