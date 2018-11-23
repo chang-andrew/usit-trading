@@ -213,6 +213,8 @@ if __name__ == '__main__':
         while not user_input.isdigit():
             user_input = input("Enter a valid option: ")
 
+        user_input = int(user_input)
+
         if user_input == 0:
             break
         elif user_input == 1:
