@@ -13,9 +13,9 @@ def print_ranking():
     print("Connected")
 
     #Create a scrollable, client-side cursor for 'responses' table
-    main_cursor = conn.cursor(None, None, True, False)
+    main_cursor = conn.cursor()
     #Create another cursor for our stocks table query
-    stocks_cursor = conn.cursor(None, None, True, False)
+    stocks_cursor = conn.cursor()
     stocks_cursor.execute("SELECT * FROM stocks")
 
     print("Executed")
@@ -207,6 +207,7 @@ if __name__ == '__main__':
         print("4. Test Connection")
         print("5. Make Table")
         print("6. Delete Person")
+        print("7. Print Table")
         user_input = int(input("Enter your option: "))
         
         if user_input == 0:
@@ -223,6 +224,8 @@ if __name__ == '__main__':
             make_table()
         elif user_input == 6:
             delete_person()
+        elif user_input == 7:
+            print_table()
 
 
 
