@@ -46,50 +46,53 @@ def print_ranking():
         
         stock_price_changes.append(percent_change)
 
-        #select all rows in the 'responses' table   
-        main_cursor.execute("SELECT * FROM responses")
+    #select all rows in the 'responses' table   
+    main_cursor.execute("SELECT * FROM responses")
 
-        #this is the dictionary we will use to store mappings of "name" : int($amount)
-        performance_dict = {}
+    #this is the dictionary we will use to store mappings of "name" : int($amount)
+    performance_dict = {}
 
-        #loop through every row in the table
+    #loop through every row in the table
+    current_person_tuple = main_cursor.fetchone()
+
+    #for each row/person, we want to...
+    while(current_person_tuple != None):
+            
+        sum_percent = 100
+
+        #loop over each one of their responses for each week/stock
+        #start from the 1st index element since 0 is the ID
+        for i in range(len(current_person_tuple)-1):
+            #get the string response (Y/N/No position)
+            response = current_person_tuple[i+1]
+            #get that weeks stock price change
+            cur_week_stock = stock_price_changes[i]
+            if(response == "YES"):
+                sum_percent += cur_week_stock
+            elif(response == "NO"):
+                sum_percent -= cur_week_stock
+
+        #map their total money to their name
+        name = current_person_tuple[0]
+        performance_dict[name] = sum_percent
+
+        #iterate to next person
         current_person_tuple = main_cursor.fetchone()
 
-        #for each row/person, we want to...
-        while(current_person_tuple != None):
-            
-            sum_percent = 100
+    rank_number = 1
+    for name_perf_pair in sorted(performance_dict.items(), key=itemgetter(1)):
+        name = name_perf_pair[0]
+        performance = name_perf_pair[1]
 
-            #loop over each one of their responses for each week/stock
-            #start from the 1st index element since 0 is the ID
-            for i in range(len(current_person_tuple)-1):
-                #get the string response (Y/N/No position)
-                response = current_person_tuple[i+1]
-                #get that weeks stock price change
-                cur_week_stock = stock_price_changes[i]
-                if(response == "YES"):
-                    sum_percent += cur_week_stock
-                elif(response == "NO"):
-                    sum_percent -= cur_week_stock
+        #do something with those values
+        return_string = str(rank_number) + ". " + name + " :: " + str(performance) 
+        print(return_string)
 
-            #map their total money to their name
-            name = current_person_tuple[0]
-            performance_dict[name] = sum_percent
-
-        rank_number = 1
-        for name_perf_pair in sorted(performance_dict.items(), key=itemgetter(1)):
-            name = name_perf_pair[0]
-            performance = name_perf_pair[1]
-
-            #do something with those values
-            return_string = str(rank_number) + ". " + name + " :: " + str(performance) 
-            print(return_string)
-
-        #commit and close connection
-        conn.commit()
-        main_cursor.close()
-        stocks_cursor.close()
-        conn.close()
+    #commit and close connection
+    conn.commit()
+    main_cursor.close()
+    stocks_cursor.close()
+    conn.close()
 
 def update_responses():
     pass
@@ -156,6 +159,20 @@ def delete_person():
     main_cursor.close()
     conn.close()
 
+def print_table():
+    conn = test_connection()
+    main_cursor = conn.cursor()
+
+    main_cursor.execute("SELECT * FROM responses")
+
+    current_person_tuple = main_cursor.fetchone()
+
+    while(current_person_tuple != None):
+        print(current_person_tuple)
+
+
+
+
 
 def test_connection():
     try:
@@ -181,27 +198,31 @@ def test_connection():
 
 if __name__ == '__main__':
     print("Welcome to USIT Trading")
-    print("Select from the following options:")
-    print("1. Print Ranking")
-    print("2. Update Response")
-    print("3. Make Person")
-    print("4. Test Connection")
-    print("5. Make Table")
-    print("6. Delete Person")
-    user_input = int(input("Enter your option: "))
-
-    if user_input == 1:
-        print_ranking()
-    elif user_input == 2:
-        update_responses()
-    elif user_input == 3:
-        make_person()
-    elif user_input == 4:
-        test_connection()
-    elif user_input == 5:
-        make_table()
-    elif user_input == 6:
-        delete_person()
+    while True:
+        print("Select from the following options:")
+        print("0. Quit")
+        print("1. Print Ranking")
+        print("2. Update Response")
+        print("3. Make Person")
+        print("4. Test Connection")
+        print("5. Make Table")
+        print("6. Delete Person")
+        user_input = int(input("Enter your option: "))
+        
+        if user_input == 0:
+            return
+        elif user_input == 1:
+            print_ranking()
+        elif user_input == 2:
+            update_responses()
+        elif user_input == 3:
+            make_person()
+        elif user_input == 4:
+            test_connection()
+        elif user_input == 5:
+            make_table()
+        elif user_input == 6:
+            delete_person()
 
 
 
