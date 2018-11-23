@@ -169,6 +169,7 @@ def print_table():
 
     while(current_person_tuple != None):
         print(current_person_tuple)
+        current_person_tuple = main_cursor.fetchone()
 
 
 
