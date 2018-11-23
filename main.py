@@ -128,7 +128,7 @@ def make_person():
 
     name = str(input("Enter Name:"))
 
-    main_cursor.execute("INSERT INTO responses (PersonName) VALUES (%s)", (name,))
+    main_cursor.execute("INSERT INTO responses VALUES (%s, 'No position', 'No position', 'No position', 'No position','No position','No position','No position','No position','No position','No position')", (name,))
 
     #commit and close session
     conn.commit()
@@ -136,6 +136,25 @@ def make_person():
     conn.close()
 
     print("Inserted " + name)
+
+#Deletes an entire row, given a specific name
+def delete_person():
+    conn = test_connection()
+    main_cursor = conn.cursor()
+
+    name = str(input("Enter Name:"))
+
+    main_cursor.execute("DELETE FROM responses WHERE PersonName=%s", (name,))
+
+    #commit and close session
+    confirm = input("Warning: User data cannot be retrieved after deleting. Are you sure? (Y/N)")
+    if confirm in ['Y', 'y', 'yes', 'YES', 'Yes']:
+        conn.commit()
+        print("Change saved")
+    else:
+        print("Change reverted")
+    main_cursor.close()
+    conn.close()
 
 
 def test_connection():
