@@ -38,7 +38,7 @@ def print_ranking():
         stock_json = req.json()
         print(stock_json)
         stock_data = stock_json['data']
-        current_price = float(stock_data[0]['price'])
+        current_price = Decimal(stock_data[0]['price'])
 
         
 
