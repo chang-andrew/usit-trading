@@ -54,6 +54,8 @@ def print_ranking():
         #iterate to next stock
         current_stock_tuple = stocks_cursor.fetchone()
 
+    print("Stock price changes: ")
+    print(stock_price_changes)
     #select all rows in the 'responses' table   
     main_cursor.execute("SELECT * FROM responses")
 
