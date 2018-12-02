@@ -109,7 +109,7 @@ def update_responses():
     keep_going = True
 
     while keep_going:
-        name = input("Enter a name: ")
+        name = lower(input("Enter a name: "))
         week = "Stock" + input("Enter week number wish to update: ")
         response = input("Enter response: ")
 
@@ -218,7 +218,7 @@ def delete_person():
     conn = test_connection()
     main_cursor = conn.cursor()
 
-    name = str(input("Enter Name:"))
+    name = lower(str(input("Enter Name:")))
 
     main_cursor.execute("DELETE FROM responses WHERE PersonName=%s", (name,))
 
@@ -262,7 +262,7 @@ def read_file():
             line_count+=1
             continue
         
-        email = row[2]
+        email = lower(row[2])
         response = row[3]
 
         #check if this person already exists, if not, create new row
@@ -285,6 +285,16 @@ def read_file():
     main_cursor.close()
     conn.close()
 
+
+def clear_table():
+    conn = test_connection()
+    main_cursor = conn.cursor()
+
+    main_cursor.execute("DELETE FROM responses")
+
+    conn.commit()
+    main_cursor.close()
+    conn.close()
 
 
 def test_connection():
@@ -323,6 +333,7 @@ if __name__ == '__main__':
         print("7. Print Stocks Table")
         print("8. Print Responses Table")
         print("9. read file")
+        print("10. clear table")
         user_input = input("Enter your option: ")
         while not user_input.isdigit():
             user_input = input("Enter a valid option: ")
@@ -349,6 +360,8 @@ if __name__ == '__main__':
             print_table()
         elif user_input == 9:
             read_file()
+        elif user_input == 10:
+            clear_table()
     print("Thanks for playing")
 
 
