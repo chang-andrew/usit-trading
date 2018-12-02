@@ -1,2 +1,2 @@
-googlefinance
 psycopg2-binary
+yahoo-finance

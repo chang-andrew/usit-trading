@@ -1,7 +1,7 @@
 import os
 import psycopg2
 import json
-from googlefinance import getQuotes
+from yahoo_finance import Share
 from decimal import Decimal
 from operator import itemgetter
 import urllib.parse as urlparse
@@ -31,11 +31,11 @@ def print_ranking():
         buy_type = current_stock_tuple[2]
         buy_price = current_stock_tuple[3]
 
-        #get the stock information from googlefinance, returns a json
-        stock_quote_json = getQuotes(stock_ticker)
+        #create share 'object' with yahoo finance api
+        stock = Share(stock_ticker)
 
-        #access price field from json
-        current_price = float(stock_quote_json['LastTradePrice'])
+        #get current stock price from object created
+        current_price = float(stock.get_price())
 
         #change in percent of stock price
         percent_change = Decimal(((current_price-buy_price)/buy_price)*100)
