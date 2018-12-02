@@ -35,6 +35,7 @@ def print_ranking():
         URL = "https://www.worldtradingdata.com/api/v1/stock?symbol="+stock_ticker+"&api_token=tjBiDeMFxKrXPt4sS5Kr5XCi2h2kVIG6JtzOXlakrSnICR7iRmjlyejoSd4B"
         req = requests.get(URL)
         stock_json = req.json()
+        print(stock_json)
         stock_data = stock_json['data']
         current_price = float(stock_data['price'])
 
