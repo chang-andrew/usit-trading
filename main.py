@@ -297,7 +297,7 @@ def clear_table():
     main_cursor = conn.cursor()
 
     main_cursor.execute("DELETE FROM responses")
-    main_cursor.execute("DELETE FROM stocks")
+    main_cursor.execute("DROP TABLE stocks")
 
     conn.commit()
     main_cursor.close()
