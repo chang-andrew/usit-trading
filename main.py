@@ -90,12 +90,13 @@ def print_ranking():
         current_person_tuple = main_cursor.fetchone()
 
     rank_number = 1
-    for name_perf_pair in sorted(performance_dict.items(), key=itemgetter(1)):
+    for name_perf_pair in sorted(performance_dict.items(), key=itemgetter(1), reverse=True):
         name = name_perf_pair[0]
         performance = name_perf_pair[1]
 
         #do something with those values
         return_string = str(rank_number) + ". " + name + " :: " + str(performance) 
+        rank_number+=1
         print(return_string)
 
     #commit and close connection
