@@ -95,7 +95,32 @@ def print_ranking():
     conn.close()
 
 def update_responses():
-    pass
+    conn = test_connection
+    main_cursor = conn.cursor()
+
+    keep_going = True
+
+    while keep_going:
+        name = input("Enter a name: ")
+        week = "Stock" + input("Enter week number wish to update: ")
+        response = input("Enter response: ")
+
+        print("Changing " + name + "'s response for " + week + " to '"+response+"', is this correct?")
+        confirm = input("Y/N?")
+        if confirm in ['Y', 'y', 'yes', 'YES']:
+            main_cursor.execute("UPDATE responses SET %s = '%s' WHERE PersonName='%s'", (week, response, name))
+            print("Updated")
+        else:
+            print("Did not update")
+
+        print("Would you like to continue?")
+        confirm_continue = input("Y/N?")
+        if confirm_continue not in ['Y', 'y', 'yes', 'YES']:
+            keep_going = False
+    
+    conn.commit()
+    main_cursor.close()
+    conn.close()
 
 
 # def make_table():
@@ -245,6 +270,7 @@ if __name__ == '__main__':
         print("5. Make Table")
         print("6. Delete Person")
         print("7. Print Stocks Table")
+        print("8. Print Responses Table")
         user_input = input("Enter your option: ")
         while not user_input.isdigit():
             user_input = input("Enter a valid option: ")
@@ -267,6 +293,8 @@ if __name__ == '__main__':
             delete_person()
         elif user_input == 7:
             print_stocks_table()
+        elif user_input == 8:
+            print_table()
     print("Thanks for playing")
 
 
