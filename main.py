@@ -268,15 +268,18 @@ def read_file():
         main_cursor.execute("SELECT * FROM responses WHERE PersonName=%s", (email,))
         if main_cursor.fetchone() == None:
             main_cursor.execute("INSERT INTO responses VALUES (%s, 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None')", (email,))
+            conn.commit()
 
         if response == "n/a":
             continue
         elif response == "YES" or response == "NO":
             exec_string = "UPDATE responses SET " + week + " = %s WHERE PersonName=%s"
             main_cursor.execute(exec_string, (response, email))
+            print("Added " + email +" as " + response)
+            conn.commit()
         else:
             print("Response not yes, no, or n/a huh")
-    
+            
     conn.commit()
     main_cursor.close()
     conn.close()
