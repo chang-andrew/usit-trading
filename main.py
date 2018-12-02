@@ -132,13 +132,13 @@ def make_table():
     
     main_cursor.execute(sql_string)
 
-    main_cursor.execute("INSERT INTO stocks VALUES('Stock1', 'VWDRY', 'LONG', 21.91")
-    main_cursor.execute("INSERT INTO stocks VALUES('Stock2', 'ARNC', 'LONG', 21.54")
-    main_cursor.execute("INSERT INTO stocks VALUES('Stock3', 'ATHM', 'LONG', 68.89")
-    main_cursor.execute("INSERT INTO stocks VALUES('Stock4', 'ADMP', 'LONG', 2.87")
-    main_cursor.execute("INSERT INTO stocks VALUES('Stock5', 'ALCO', 'SHORT', 33.01")
-    main_cursor.execute("INSERT INTO stocks VALUES('Stock6', 'PPG', 'SHORT', 109.53")
-    main_cursor.execute("INSERT INTO stocks VALUES('Stock7', 'BLKB', 'LONG', 70.98")
+    main_cursor.execute("INSERT INTO stocks VALUES('Stock1', 'VWDRY', 'LONG', 21.91)")
+    main_cursor.execute("INSERT INTO stocks VALUES('Stock2', 'ARNC', 'LONG', 21.54)")
+    main_cursor.execute("INSERT INTO stocks VALUES('Stock3', 'ATHM', 'LONG', 68.89)")
+    main_cursor.execute("INSERT INTO stocks VALUES('Stock4', 'ADMP', 'LONG', 2.87)")
+    main_cursor.execute("INSERT INTO stocks VALUES('Stock5', 'ALCO', 'SHORT', 33.01)")
+    main_cursor.execute("INSERT INTO stocks VALUES('Stock6', 'PPG', 'SHORT', 109.53)")
+    main_cursor.execute("INSERT INTO stocks VALUES('Stock7', 'BLKB', 'LONG', 70.98)")
     # main_cursor.execute("INSERT INTO stocks VALUES('Stock8', '', '', 10.00")
 
 
