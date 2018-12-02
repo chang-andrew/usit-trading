@@ -252,7 +252,7 @@ def read_file():
 
     file_name = input("enter file name (don't include .csv): ")
     week = "Stock" + input("Enter week number wish to update: ")
-    in_file = open("/Response Sheets/"+file_name+".csv")
+    in_file = open("./Response Sheets/"+file_name+".csv")
     csv_file = csv.reader(in_file, delimiter=",")
 
     line_count = 0
