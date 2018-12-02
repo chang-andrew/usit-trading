@@ -108,7 +108,8 @@ def update_responses():
         print("Changing " + name + "'s response for " + week + " to '"+response+"', is this correct?")
         confirm = input("Y/N?")
         if confirm in ['Y', 'y', 'yes', 'YES']:
-            main_cursor.execute("UPDATE responses SET (%s) = %s WHERE PersonName=%s", (week, response, name))
+            exec_string = "UPDATE responses SET " + week + " = %s WHERE PersonName=%s"
+            main_cursor.execute(exec_string, (response, name))
             print("Updated")
         else:
             print("Did not update")
