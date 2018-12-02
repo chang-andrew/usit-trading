@@ -1,43 +1,20 @@
-import os
-import psycopg2
-import json
-from googlefinance import getQuotes
-from decimal import Decimal
-from operator import itemgetter
-import urllib.parse as urlparse
-import os
+import csv
 
-def get_connection():
-    try:
-        url = urlparse.urlparse(os.environ['DATABASE_URL'])
-        dbname = url.path[1:]
-        user = url.username
-        password = url.password
-        host = url.hostname
-        port = url.port
+file_name = input("enter file name (don't include .csv): ")
+week = "Stock" + input("Enter week number wish to update: ")
+in_file = open("./Response Sheets/"+file_name+".csv")
+csv_file = csv.reader(in_file, delimiter=",")
 
-        con = psycopg2.connect(
-                    dbname=dbname,
-                    user=user,
-                    password=password,
-                    host=host,
-                    port=port
-                    )
-        print("Successfully connected")
-        return con
-    except:
-        print("Error connecting to DB")
+line_count = 0
+    
+for row in csv_file:
+        if line_count == 0:
+                line_count+=1
+                continue
+        
+        email = row[2]
+        response = row[3]
 
-
-def print_table():
-    conn = get_connection()
-    main_cursor = conn.cursor()
-
-    main_cursor.execute("SELECT * FROM responses")
-
-    current_person_tuple = main_cursor.fetchone()
-
-    while(current_person_tuple != None):
-        print(current_person_tuple)
-        current_person_tuple = main_cursor.fetchone()
-
+        print("Email : " + email)
+        print("response: " + response)
+        print("----")

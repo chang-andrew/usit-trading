@@ -6,6 +6,7 @@ from operator import itemgetter
 import urllib.parse as urlparse
 import os
 import requests
+import csv
 
 def print_ranking():
     conn = test_connection()
@@ -34,9 +35,7 @@ def print_ranking():
         #get stock price through worldtradingdata
         URL = "https://www.worldtradingdata.com/api/v1/stock?symbol="+stock_ticker+"&api_token=tjBiDeMFxKrXPt4sS5Kr5XCi2h2kVIG6JtzOXlakrSnICR7iRmjlyejoSd4B"
         req = requests.get(URL)
-        print("url: "+URL)
         stock_json = req.json()
-        print(stock_json)
         stock_data = stock_json['data']
         current_price = Decimal(stock_data[0]['price'])
 
@@ -54,8 +53,6 @@ def print_ranking():
         #iterate to next stock
         current_stock_tuple = stocks_cursor.fetchone()
 
-    print("Stock price changes: ")
-    print(stock_price_changes)
     #select all rows in the 'responses' table   
     main_cursor.execute("SELECT * FROM responses")
 
@@ -72,7 +69,7 @@ def print_ranking():
 
         #loop over each one of their responses for each week/stock
         #start from the 1st index element since 0 is the ID
-        for i in range(len(current_person_tuple)-4):
+        for i in range(len(current_person_tuple)-2):
             #get the string response (Y/N/No position)
             response = current_person_tuple[i+1]
             #get that weeks stock price change
@@ -246,6 +243,44 @@ def print_table():
     while(current_person_tuple != None):
         print(current_person_tuple)
         current_person_tuple = main_cursor.fetchone()
+
+
+#reads a response file and updates data accordingly
+def read_file():
+    conn = test_connection()
+    main_cursor = conn.cursor()
+
+    file_name = input("enter file name (don't include .csv): ")
+    week = "Stock" + input("Enter week number wish to update: ")
+    in_file = open("/Response Sheets/"+file_name+".csv")
+    csv_file = csv.reader(in_file, delimiter=",")
+
+    line_count = 0
+    
+    for row in csv_file:
+        if line_count == 0:
+            continue
+        
+        email = row[2]
+        response = row[3]
+
+        #check if this person already exists, if not, create new row
+        main_cursor.execute("SELECT * FROM responses WHERE PersonName=%s", (email,))
+        if main_cursor.fetchone() == None:
+            main_cursor.execute("INSERT INTO responses VALUES (%s, 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None')", (email,))
+
+        if response == "n/a":
+            continue
+        elif response == "YES" or response == "NO":
+            exec_string = "UPDATE responses SET " + week + " = %s WHERE PersonName=%s"
+            main_cursor.execute(exec_string, (response, email))
+        else:
+            print("Response not yes, no, or n/a huh")
+    
+    conn.commit()
+    main_cursor.close()
+    conn.close()
+
 
 
 def test_connection():
