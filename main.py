@@ -69,7 +69,7 @@ def print_ranking():
 
         #loop over each one of their responses for each week/stock
         #start from the 1st index element since 0 is the ID
-        for i in range(len(current_person_tuple)-2):
+        for i in range(len(current_person_tuple)-4):
             #get the string response (Y/N/No position)
             response = current_person_tuple[i+1]
             #get that weeks stock price change
@@ -267,7 +267,7 @@ def read_file():
         #check if this person already exists, if not, create new row
         main_cursor.execute("SELECT * FROM responses WHERE PersonName=%s", (email,))
         if main_cursor.fetchone() == None:
-            main_cursor.execute("INSERT INTO responses VALUES (%s, 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None')", (email,))
+            main_cursor.execute("INSERT INTO responses VALUES (%s, 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None')", (email,))
 
         if response == "n/a":
             continue
