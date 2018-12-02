@@ -69,7 +69,7 @@ def print_ranking():
 
         #loop over each one of their responses for each week/stock
         #start from the 1st index element since 0 is the ID
-        for i in range(len(current_person_tuple)-4):
+        for i in range(len(current_person_tuple)-3):
             #get the string response (Y/N/No position)
             response = current_person_tuple[i+1]
             #get that weeks stock price change
@@ -168,12 +168,13 @@ def make_table():
 
     main_cursor.execute("INSERT INTO stocks VALUES('Stock1', 'VWDRY', 'LONG', 21.91)")
     main_cursor.execute("INSERT INTO stocks VALUES('Stock2', 'ARNC', 'LONG', 21.54)")
-    main_cursor.execute("INSERT INTO stocks VALUES('Stock3', 'ATHM', 'LONG', 68.89)")
-    main_cursor.execute("INSERT INTO stocks VALUES('Stock4', 'ADMP', 'LONG', 2.87)")
-    main_cursor.execute("INSERT INTO stocks VALUES('Stock5', 'ALCO', 'SHORT', 33.01)")
-    main_cursor.execute("INSERT INTO stocks VALUES('Stock6', 'PPG', 'SHORT', 109.53)")
-    main_cursor.execute("INSERT INTO stocks VALUES('Stock7', 'BLKB', 'LONG', 70.98)")
-    # main_cursor.execute("INSERT INTO stocks VALUES('Stock8', '', '', 10.00")
+    main_cursor.execute("INSERT INTO stocks VALUES('Stock3', 'LEA', 'LONG', 135.06)")
+    main_cursor.execute("INSERT INTO stocks VALUES('Stock4', 'ATHM', 'LONG', 68.89)")
+    main_cursor.execute("INSERT INTO stocks VALUES('Stock5', 'ADMP', 'LONG', 2.87)")
+    main_cursor.execute("INSERT INTO stocks VALUES('Stock6', 'ALCO', 'SHORT', 33.01)")
+    main_cursor.execute("INSERT INTO stocks VALUES('Stock7', 'PPG', 'SHORT', 109.53)")
+    main_cursor.execute("INSERT INTO stocks VALUES('Stock8', 'BLKB', 'LONG', 70.98)")
+    
 
 
     #commit and close session
@@ -250,36 +251,41 @@ def read_file():
     conn = test_connection()
     main_cursor = conn.cursor()
 
-    file_name = input("enter file name (don't include .csv): ")
-    week = "Stock" + input("Enter week number wish to update: ")
-    in_file = open("./Response Sheets/"+file_name+".csv")
-    csv_file = csv.reader(in_file, delimiter=",")
+    names = ["9-18-2018", "9-25-18", "10-9-18", "10-16-18", "10-23-18", "10-30-18", "11-6-18", "11-13-18"]
+    num = 1
 
-    line_count = 0
-    
-    for row in csv_file:
-        if line_count == 0:
-            line_count+=1
-            continue
+    for name in names:
+        file_name = name
+        week = "Stock" + num
+        num +=1
+        in_file = open("./Response Sheets/"+file_name+".csv")
+        csv_file = csv.reader(in_file, delimiter=",")
+
+        line_count = 0
         
-        email = lower(row[2])
-        response = row[3]
+        for row in csv_file:
+            if line_count == 0:
+                line_count+=1
+                continue
+            
+            email = lower(row[2])
+            response = row[3]
 
-        #check if this person already exists, if not, create new row
-        main_cursor.execute("SELECT * FROM responses WHERE PersonName=%s", (email,))
-        if main_cursor.fetchone() == None:
-            main_cursor.execute("INSERT INTO responses VALUES (%s, 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None')", (email,))
-            conn.commit()
+            #check if this person already exists, if not, create new row
+            main_cursor.execute("SELECT * FROM responses WHERE PersonName=%s", (email,))
+            if main_cursor.fetchone() == None:
+                main_cursor.execute("INSERT INTO responses VALUES (%s, 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None')", (email,))
+                conn.commit()
 
-        if response == "n/a":
-            continue
-        elif response == "YES" or response == "NO":
-            exec_string = "UPDATE responses SET " + week + " = %s WHERE PersonName=%s"
-            main_cursor.execute(exec_string, (response, email))
-            print("Added " + email +" as " + response)
-            conn.commit()
-        else:
-            print("Response not yes, no, or n/a huh")
+            if response == "n/a":
+                continue
+            elif response == "YES" or response == "NO":
+                exec_string = "UPDATE responses SET " + week + " = %s WHERE PersonName=%s"
+                main_cursor.execute(exec_string, (response, email))
+                print("Added " + email +" as " + response)
+                conn.commit()
+            else:
+                print("Response not yes, no, or n/a huh")
 
     conn.commit()
     main_cursor.close()
@@ -291,6 +297,7 @@ def clear_table():
     main_cursor = conn.cursor()
 
     main_cursor.execute("DELETE FROM responses")
+    main_cursor.execute("DELETE FROM stocks")
 
     conn.commit()
     main_cursor.close()
