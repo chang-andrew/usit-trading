@@ -98,22 +98,49 @@ def update_responses():
     pass
 
 
+# def make_table():
+#     conn = test_connection()
+
+#     main_cursor = conn.cursor()
+
+#     sql_string = "CREATE TABLE responses (PersonName varchar(255), "
+
+#     for i in range(1, 11):
+        
+#         sql_string += "Stock"+str(i)+" varchar(10)"
+#         if(i != 10):
+#             sql_string +=  ", "
+
+#     sql_string += ")"
+    
+#     main_cursor.execute(sql_string)
+
+#     #commit and close session
+#     conn.commit()
+#     main_cursor.close()
+#     conn.close()
+
+#     print("Table created")
 def make_table():
     conn = test_connection()
 
     main_cursor = conn.cursor()
 
-    sql_string = "CREATE TABLE responses (PersonName varchar(255), "
+    sql_string = "CREATE TABLE stocks (StockNumber varchar(10), Ticker varchar(15), Type varchar(10), BuyPrice DECIMAL(10, 2))"
 
-    for i in range(1, 11):
-        
-        sql_string += "Stock"+str(i)+" varchar(10)"
-        if(i != 10):
-            sql_string +=  ", "
-
-    sql_string += ")"
+    
     
     main_cursor.execute(sql_string)
+
+    main_cursor.execute("INSERT INTO stocks VALUES('Stock1', 'VWDRY', 'LONG', 21.91)
+    main_cursor.execute("INSERT INTO stocks VALUES('Stock2', 'ARNC', 'LONG', 21.54)
+    main_cursor.execute("INSERT INTO stocks VALUES('Stock3', 'ATHM', 'LONG', 68.89)
+    main_cursor.execute("INSERT INTO stocks VALUES('Stock4', 'ADMP', 'LONG', 2.87)
+    main_cursor.execute("INSERT INTO stocks VALUES('Stock5', 'ALCO', 'SHORT', 33.01)
+    main_cursor.execute("INSERT INTO stocks VALUES('Stock6', 'PPG', 'SHORT', 109.53)
+    main_cursor.execute("INSERT INTO stocks VALUES('Stock7', 'BLKB', 'LONG', 70.98)
+    # main_cursor.execute("INSERT INTO stocks VALUES('Stock8', '', '', 10.00)
+
 
     #commit and close session
     conn.commit()
@@ -121,6 +148,18 @@ def make_table():
     conn.close()
 
     print("Table created")
+
+def print_stocks_table():
+    conn = test_connection()
+    main_cursor = conn.cursor()
+
+    main_cursor.execute("SELECT * FROM stocks")
+
+    current_person_tuple = main_cursor.fetchone()
+
+    while(current_person_tuple != None):
+        print(current_person_tuple)
+        current_person_tuple = main_cursor.fetchone()
 
 
 def make_person():
@@ -172,9 +211,6 @@ def print_table():
         current_person_tuple = main_cursor.fetchone()
 
 
-
-
-
 def test_connection():
     try:
         url = urlparse.urlparse(os.environ['DATABASE_URL'])
@@ -208,7 +244,7 @@ if __name__ == '__main__':
         print("4. Test Connection")
         print("5. Make Table")
         print("6. Delete Person")
-        print("7. Print Table")
+        print("7. Print Stocks Table")
         user_input = input("Enter your option: ")
         while not user_input.isdigit():
             user_input = input("Enter a valid option: ")
@@ -230,7 +266,7 @@ if __name__ == '__main__':
         elif user_input == 6:
             delete_person()
         elif user_input == 7:
-            print_table()
+            print_stocks_table()
     print("Thanks for playing")
 
 
