@@ -95,7 +95,7 @@ def print_ranking():
     conn.close()
 
 def update_responses():
-    conn = test_connection
+    conn = test_connection()
     main_cursor = conn.cursor()
 
     keep_going = True
