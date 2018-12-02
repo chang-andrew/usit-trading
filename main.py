@@ -109,7 +109,7 @@ def update_responses():
     keep_going = True
 
     while keep_going:
-        name = lower(input("Enter a name: "))
+        name = input("Enter a name: ").lower()
         week = "Stock" + input("Enter week number wish to update: ")
         response = input("Enter response: ")
 
@@ -219,7 +219,7 @@ def delete_person():
     conn = test_connection()
     main_cursor = conn.cursor()
 
-    name = lower(str(input("Enter Name:")))
+    name = str(input("Enter Name:")).lower()
 
     main_cursor.execute("DELETE FROM responses WHERE PersonName=%s", (name,))
 
@@ -268,7 +268,7 @@ def read_file():
                 line_count+=1
                 continue
             
-            email = lower(row[2])
+            email = row[2].lower()
             response = row[3]
 
             #check if this person already exists, if not, create new row
