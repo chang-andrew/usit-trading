@@ -24,7 +24,7 @@ def print_ranking():
     stock_price_changes = []
 
     #Convert our stocks table in DB to dictionary with mappings <Week# (String), $change (float)>
-    current_stock_tuple = stocks_cursor.fetchone
+    current_stock_tuple = stocks_cursor.fetchone()
 
     while(current_stock_tuple != None):
         stock_ticker = current_stock_tuple[1]
