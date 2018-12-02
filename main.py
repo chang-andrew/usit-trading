@@ -318,6 +318,7 @@ if __name__ == '__main__':
         print("6. Delete Person")
         print("7. Print Stocks Table")
         print("8. Print Responses Table")
+        print("9. read file")
         user_input = input("Enter your option: ")
         while not user_input.isdigit():
             user_input = input("Enter a valid option: ")
@@ -342,6 +343,8 @@ if __name__ == '__main__':
             print_stocks_table()
         elif user_input == 8:
             print_table()
+        elif user_input == 9:
+            read_file()
     print("Thanks for playing")
 
 
