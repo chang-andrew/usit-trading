@@ -256,7 +256,7 @@ def read_file():
 
     for name in names:
         file_name = name
-        week = "Stock" + num
+        week = "Stock" + str(num)
         num +=1
         in_file = open("./Response Sheets/"+file_name+".csv")
         csv_file = csv.reader(in_file, delimiter=",")
