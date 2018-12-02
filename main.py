@@ -259,6 +259,7 @@ def read_file():
     
     for row in csv_file:
         if line_count == 0:
+            line_count+=1
             continue
         
         email = row[2]
@@ -279,7 +280,7 @@ def read_file():
             conn.commit()
         else:
             print("Response not yes, no, or n/a huh")
-            
+
     conn.commit()
     main_cursor.close()
     conn.close()
