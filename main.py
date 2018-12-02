@@ -27,7 +27,7 @@ def print_ranking():
     current_stock_tuple = stocks_cursor.fetchone()
 
     while(current_stock_tuple != None):
-        stock_ticker = current_stock_tuple[1]
+        stock_ticker = "'"+current_stock_tuple[1]+"'"
         buy_type = current_stock_tuple[2]
         buy_price = current_stock_tuple[3]
 
