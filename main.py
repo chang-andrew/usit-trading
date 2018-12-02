@@ -1,11 +1,11 @@
 import os
 import psycopg2
 import json
-from yahoo_finance import Share
 from decimal import Decimal
 from operator import itemgetter
 import urllib.parse as urlparse
 import os
+import requests
 
 def print_ranking():
     conn = test_connection()
@@ -31,11 +31,14 @@ def print_ranking():
         buy_type = current_stock_tuple[2]
         buy_price = current_stock_tuple[3]
 
-        #create share 'object' with yahoo finance api
-        stock = Share(stock_ticker)
+        #get stock price through worldtradingdata
+        URL = "https://www.worldtradingdata.com/api/v1/stock?symbol="+stock_ticker+"&api_token=tjBiDeMFxKrXPt4sS5Kr5XCi2h2kVIG6JtzOXlakrSnICR7iRmjlyejoSd4B"
+        req = requests.get(URL)
+        stock_json = req.json()
+        stock_data = stock_json['data']
+        current_price = float(stock_data['price'])
 
-        #get current stock price from object created
-        current_price = float(stock.get_price())
+        
 
         #change in percent of stock price
         percent_change = Decimal(((current_price-buy_price)/buy_price)*100)
