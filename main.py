@@ -65,7 +65,7 @@ def print_ranking():
     #for each row/person, we want to...
     while(current_person_tuple != None):
             
-        sum_percent = 100
+        sum_percent = 800
 
         #loop over each one of their responses for each week/stock
         #start from the 1st index element since 0 is the ID
@@ -78,6 +78,8 @@ def print_ranking():
                 sum_percent += cur_week_stock
             elif(response == "NO"):
                 sum_percent -= cur_week_stock
+            elif(response == "None"):
+                sum_percent -= 100
 
         #map their total money to their name
         name = current_person_tuple[0]
@@ -277,9 +279,7 @@ def read_file():
                 main_cursor.execute("INSERT INTO responses VALUES (%s, 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None')", (email,))
                 conn.commit()
 
-            if response == "n/a":
-                continue
-            elif response == "YES" or response == "NO":
+            if response == "YES" or response == "NO" or response == "n/a":
                 exec_string = "UPDATE responses SET " + week + " = %s WHERE PersonName=%s"
                 main_cursor.execute(exec_string, (response, email))
                 print("Added " + email +" as " + response)
