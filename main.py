@@ -48,7 +48,7 @@ def print_ranking():
             percent_change *= -1
         
         stock_price_changes.append(percent_change)
-        print(stock ticker + " " + str(percent_change))
+        print(stock_ticker + " " + str(percent_change))
 
         #iterate to next stock
         current_stock_tuple = stocks_cursor.fetchone()
