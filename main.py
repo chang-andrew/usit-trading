@@ -92,7 +92,7 @@ def print_ranking():
         performance = name_perf_pair[1]
 
         #do something with those values
-        return_string = str(rank_number) + ". " + name + " :: " + str(performance) 
+        return_string = str(rank_number) + ". " + name + ", " + str(performance) 
         rank_number+=1
         print(return_string)
 
