@@ -38,7 +38,6 @@ def print_ranking():
         stock_json = req.json()
         stock_data = stock_json['data']
         current_price = Decimal(stock_data[0]['price'])
-
         
 
         #change in percent of stock price
@@ -49,6 +48,7 @@ def print_ranking():
             percent_change *= -1
         
         stock_price_changes.append(percent_change)
+        print(stock ticker + " " + str(percent_change))
 
         #iterate to next stock
         current_stock_tuple = stocks_cursor.fetchone()
