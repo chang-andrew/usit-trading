@@ -65,7 +65,7 @@ def print_ranking():
     #for each row/person, we want to...
     while(current_person_tuple != None):
             
-        sum_percent = 800
+        sum_percent = 100
 
         #loop over each one of their responses for each week/stock
         #start from the 1st index element since 0 is the ID
@@ -78,8 +78,6 @@ def print_ranking():
                 sum_percent += cur_week_stock
             elif(response == "NO"):
                 sum_percent -= cur_week_stock
-            elif(response == "None"):
-                sum_percent -= 100
 
         #map their total money to their name
         name = current_person_tuple[0]
@@ -302,6 +300,19 @@ def clear_table():
     conn.commit()
     main_cursor.close()
     conn.close()
+
+def cross_ref():
+    conn = test_connection()
+    main_cursor = conn.cursor()
+    
+    in_file = open("./Response Sheets/signin.csv")
+    csv_file = csv.reader(in_file, delimiter=",")
+
+    for row in csv_file:
+        email = row[3]
+        
+
+    
 
 
 def test_connection():
