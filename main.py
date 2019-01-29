@@ -69,7 +69,7 @@ def print_ranking():
 
         #loop over each one of their responses for each week/stock
         #start from the 1st index element since 0 is the ID
-        for i in range(len(current_person_tuple)-3):
+        for i in range(len(current_person_tuple)-2):
             #get the string response (Y/N/No position)
             response = current_person_tuple[i+1]
             #get that weeks stock price change
@@ -174,6 +174,7 @@ def make_table():
     main_cursor.execute("INSERT INTO stocks VALUES('Stock6', 'ALCO', 'SHORT', 33.01)")
     main_cursor.execute("INSERT INTO stocks VALUES('Stock7', 'PPG', 'SHORT', 109.53)")
     main_cursor.execute("INSERT INTO stocks VALUES('Stock8', 'BLKB', 'LONG', 70.98)")
+    main_cursor.execute("INSERT INTO stocks VALUES('Stock9', 'SOI', 'LONG', 12.45)")
     
 
 
@@ -251,7 +252,7 @@ def read_file():
     conn = test_connection()
     main_cursor = conn.cursor()
 
-    names = ["9-18-2018", "9-25-18", "10-9-18", "10-16-18", "10-23-18", "10-30-18", "11-6-18", "11-13-18"]
+    names = ["9-18-2018", "9-25-18", "10-9-18", "10-16-18", "10-23-18", "10-30-18", "11-6-18", "11-13-18", "12-4-18"]
     num = 1
 
     for name in names:
