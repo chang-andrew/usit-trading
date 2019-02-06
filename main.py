@@ -377,48 +377,49 @@ def test_connection():
 
 if __name__ == '__main__':
     print("Welcome to USIT Trading")
-    while True:
-        print("Select from the following options:")
-        print("0. Quit")
-        print("1. Print Ranking")
-        print("2. Update Response")
-        print("3. Make Person")
-        print("4. Test Connection")
-        print("5. Make Table")
-        print("6. Delete Person")
-        print("7. Print Stocks Table")
-        print("8. Print Responses Table")
-        print("9. read file")
-        print("10. clear table")
-        user_input = input("Enter your option: ")
-        while not user_input.isdigit():
-            user_input = input("Enter a valid option: ")
+    print_ranking()
+    # while True:
+    #     print("Select from the following options:")
+    #     print("0. Quit")
+    #     print("1. Print Ranking")
+    #     print("2. Update Response")
+    #     print("3. Make Person")
+    #     print("4. Test Connection")
+    #     print("5. Make Table")
+    #     print("6. Delete Person")
+    #     print("7. Print Stocks Table")
+    #     print("8. Print Responses Table")
+    #     print("9. read file")
+    #     print("10. clear table")
+    #     user_input = input("Enter your option: ")
+    #     while not user_input.isdigit():
+    #         user_input = input("Enter a valid option: ")
 
-        user_input = int(user_input)
+    #     user_input = int(user_input)
 
-        if user_input == 0:
-            break
-        elif user_input == 1:
-            print_ranking()
-        elif user_input == 2:
-            update_responses()
-        elif user_input == 3:
-            make_person()
-        elif user_input == 4:
-            test_connection()
-        elif user_input == 5:
-            make_table()
-        elif user_input == 6:
-            delete_person()
-        elif user_input == 7:
-            print_stocks_table()
-        elif user_input == 8:
-            print_table()
-        elif user_input == 9:
-            read_file()
-        elif user_input == 10:
-            clear_table()
-    print("Thanks for playing")
+    #     if user_input == 0:
+    #         break
+    #     elif user_input == 1:
+    #         print_ranking()
+    #     elif user_input == 2:
+    #         update_responses()
+    #     elif user_input == 3:
+    #         make_person()
+    #     elif user_input == 4:
+    #         test_connection()
+    #     elif user_input == 5:
+    #         make_table()
+    #     elif user_input == 6:
+    #         delete_person()
+    #     elif user_input == 7:
+    #         print_stocks_table()
+    #     elif user_input == 8:
+    #         print_table()
+    #     elif user_input == 9:
+    #         read_file()
+    #     elif user_input == 10:
+    #         clear_table()
+    # print("Thanks for playing")
 
 
 
