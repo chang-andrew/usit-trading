@@ -23,6 +23,7 @@ def print_ranking():
 
     #dictionary to store stock price information
     stock_price_changes = []
+    weekly_changes = []
 
     #Convert our stocks table in DB to dictionary with mappings <Week# (String), $change (float)>
     current_stock_tuple = stocks_cursor.fetchone()
@@ -38,16 +39,31 @@ def print_ranking():
         stock_json = req.json()
         stock_data = stock_json['data']
         current_price = Decimal(stock_data[0]['price'])
+
+        #get prev week prices
+        URL = "https://www.worldtradingdata.com/api/v1/history?symbol="+stock_ticker+"api_token=tjBiDeMFxKrXPt4sS5Kr5XCi2h2kVIG6JtzOXlakrSnICR7iRmjlyejoSd4B"
+        req = requests.get(URL)
+        stock_json = req.json()
+        stock_data = stock_json['history']
+        date="2019-1-29"
+        last_week_price = Decimal(stock_data[date]['close'])
+
+
         
 
         #change in percent of stock price
         percent_change = Decimal(((current_price-buy_price)/buy_price)*100)
 
+        from_last_week = Decimal(((current_price-last_week_price)/last_week_price)*100)
+
         #if it is short, we want to reverse the sign of the change percent
         if buy_type == "SHORT":
             percent_change *= -1
+            from_last_week *= -1
         
         stock_price_changes.append(percent_change)
+        weekly_changes.append(from_last_week)
+
         print(stock_ticker + " " + str(percent_change))
 
         #iterate to next stock
@@ -58,6 +74,7 @@ def print_ranking():
 
     #this is the dictionary we will use to store mappings of "name" : int($amount)
     performance_dict = {}
+    weekly_performance_dict = {}
 
     #loop through every row in the table
     current_person_tuple = main_cursor.fetchone()
@@ -66,26 +83,33 @@ def print_ranking():
     while(current_person_tuple != None):
             
         sum_percent = 100
+        weekly_sum = 0
 
         #loop over each one of their responses for each week/stock
         #start from the 1st index element since 0 is the ID
         for i in range(len(current_person_tuple)-2):
             #get the string response (Y/N/No position)
             response = current_person_tuple[i+1]
-            #get that weeks stock price change
+            #get that stock's price change
             cur_week_stock = stock_price_changes[i]
+            #weekly change
+            last_week_stock = weekly_changes[i]
             if(response == "YES"):
                 sum_percent += cur_week_stock
+                weekly_sum += last_week_stock
             elif(response == "NO"):
                 sum_percent -= cur_week_stock
+                weekly_sum += last_week_stock
 
         #map their total money to their name
         name = current_person_tuple[0]
         performance_dict[name] = sum_percent
+        weekly_performance_dict[name] = weekly_sum
 
         #iterate to next person
         current_person_tuple = main_cursor.fetchone()
 
+    print("Overall Rankings")
     rank_number = 1
     for name_perf_pair in sorted(performance_dict.items(), key=itemgetter(1), reverse=True):
         name = name_perf_pair[0]
@@ -95,6 +119,19 @@ def print_ranking():
         return_string = str(rank_number) + ". " + name + ", " + str(performance) 
         rank_number+=1
         print(return_string)
+    
+    print("\n\n")
+    print("Weekly movement rankings")
+    rank_number = 1
+    for name_perf_pair in sorted(weekly_performance_dict.items(), key=itemgetter(1), reverse=True):
+        name = name_perf_pair[0]
+        performance = name_perf_pair[1]
+
+        return_string = str(rank_number) + ". " + name + ", " + str(performance) 
+        rank_number +=1
+        print(return_string)
+
+
 
     #commit and close connection
     conn.commit()
